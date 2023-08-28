@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Student Details</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			text-align: center;
+			padding: 20px;
+			background-color: #333;
+			color: white;
+			margin: 0;
+		}
+
+		form {
+			background-color: white;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			margin: 20px auto;
+			width: 80%;
+			max-width: 800px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: center;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		.edit-button,
+		.delete-button,
+		.add-edit-button {
+			padding: 5px 10px;
+			border: none;
+			cursor: pointer;
+			font-size: 14px;
+			margin-right: 5px;
+			border-radius: 3px;
+			color: white;
+		}
+
+		.edit-button {
+			background-color: #3498db;
+		}
+
+		.delete-button {
+			background-color: #e74c3c;
+		}
+
+		.add-edit-button {
+			background-color: #27ae60;
+			color: white;
+			padding: 10px 20px;
+		}
+
+		input[type="text"] {
+			padding: 8px;
+			width: 100%;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Student Details</h1>
+	<form action="/studentrecord" method="post">
+		<table>
+			<tr>
+				<th class="table-heading">Rank</th>
+				<th class="table-heading">Name</th>
+				<th class="table-heading">Score</th>
+				<th class="table-heading">Operations</th>
+			</tr>
+			<tr th:each="rec : ${record}">
+				<td th:text="${rec.rank}">student rank</td>
+				<td th:text="${rec.name}">student name</td>
+				<td th:text="${rec.score}">student score</td>
+				<td>
+					<button class="edit-button" name="edit" type="submit" th:value="${rec.rank}">Edit</button>
+					<button class="delete-button" name="delete" type="submit" th:value="${rec.rank}">Delete</button>
+				</td>
+			</tr>
+		</table>
+		<input type="text" id="name" name="Sname" placeholder="Student Name">
+		<input type="text" id="score" name="Sscore" placeholder="Student Score">
+		<button class="add-edit-button" name="add-edit" type="submit" value="add">Add Details</button>
+	</form>
+</body>
+
+</html>
