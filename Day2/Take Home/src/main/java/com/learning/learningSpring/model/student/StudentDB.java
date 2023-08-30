@@ -48,7 +48,7 @@ public class StudentDB {
 	}
 
 	public void updateData(int id, int newsRank, String newName, int newScore) throws SQLException {
-		String updateQuery = "UPDATE Student SET sRank = ?, name = ?, score = ? WHERE id = ? ORDER BY score";
+		String updateQuery = "UPDATE Student SET sRank = ?, name = ?, score = ? WHERE id = ? ORDER BY score DESC";
 		try (PreparedStatement statement = cnx.prepareStatement(updateQuery)) {
 
 			statement.setInt(1, newsRank);
@@ -75,7 +75,7 @@ public class StudentDB {
 	public ResultSet getData() {
 		PreparedStatement show;
 		try {
-			show = cnx.prepareStatement("SELECT * FROM Student ORDER BY score");
+			show = cnx.prepareStatement("SELECT * FROM Student ORDER BY score DESC");
 			ResultSet rs = show.executeQuery();
 			return rs;
 		} catch (SQLException e) {

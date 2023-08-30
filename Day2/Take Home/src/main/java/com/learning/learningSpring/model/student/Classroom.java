@@ -13,14 +13,19 @@ public class Classroom {
 	private List<Student> students;
 	private static int idCounter = 1;
 	StudentDB db;
+	boolean load;
 
 	public Classroom() {
 		students = new ArrayList<>();
 		db = new StudentDB();
-//		loadDB();
 	}
 
 	public List<Student> getStudents() {
+		if (students.isEmpty()) {
+			load = true;
+			students = loadDB();
+			rank();
+		}
 		return Collections.unmodifiableList(students);
 	}
 
@@ -35,13 +40,13 @@ public class Classroom {
 	}
 
 	public void add(Student student) {
-		student.setId(idCounter++);
+
+		student.setId(updateID());
 		students.add(student);
 		rank();
 		try {
 			db.saveData(student.getId(), student.getRank(), student.getName(), student.getScore());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		updateTable();
@@ -78,6 +83,18 @@ public class Classroom {
 		return Optional.empty();
 	}
 
+	public int updateID() {
+		int maxId = 0;
+
+		for (Student st : students) {
+			int studentId = st.getId();
+			if (studentId > maxId) {
+				maxId = studentId;
+			}
+		}
+		return maxId + 1;
+	}
+
 	public void updateTable() {
 		for (Student s : students) {
 			try {
@@ -93,18 +110,29 @@ public class Classroom {
 
 	public void clear() {
 		db.clearDB();
-		
+		students.removeAll(students);
 	}
-	
-//	public void loadDB() {
-//		ResultSet rs = db.getData();
-//			try {
-//				while (rs.next()) {
-//					students.add(new Student(rs.getInt("id"),rs.getInt("sRank"),rs.getString("name"),rs.getInt("score")));
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//	}
+
+	public List<Student> loadDB() {
+		ResultSet rs = db.getData();
+		try {
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				int rank = rs.getInt("sRank");
+				String name = rs.getString("name");
+				int score = rs.getInt("score");
+
+				Student student = new Student();
+				student.setId(id);
+				student.setRank(rank);
+				student.setName(name);
+				student.setScore(score);
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return students;
+	}
 
 }
