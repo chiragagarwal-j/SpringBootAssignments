@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Cycle Stand Stats</title>
+</head>
+
+<body>
+	<h3>Rent Cycle</h3>
+
+	<table>
+		<tr>
+			<th>Cycle ID</th>
+			<th>Brand</th>
+			<th>Color</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="cyc : ${cycleList}" th:if="${cyc.available}">
+			<td th:text="${cyc.id}">Cycle ID</td>
+			<td th:text="${cyc.brand}">Brand</td>
+			<td th:text="${cyc.color}">Color</td>
+			<td>
+				<form th:action="@{/checkin}" method="post">
+					<input type="hidden" name="id" th:value="${cyc.id}">
+					<button class="checkin-button" type="submit">Check in</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<h3>Return Cycle</h3>
+
+	<table>
+		<tr>
+			<th>Cycle ID</th>
+			<th>Brand</th>
+			<th>Color</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="cyc : ${cycleList}" th:if="${!cyc.available}">
+			<td th:text="${cyc.id}">Cycle ID</td>
+			<td th:text="${cyc.brand}">Brand</td>
+			<td th:text="${cyc.color}">Color</td>
+			<td>
+				<form th:action="@{/checkout}" method="post">
+					<input type="hidden" name="id" th:value="${cyc.id}">
+					<button class="checkout-button" type="submit">Check Out</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>
