@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Sudoku Board</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 50%;
+			margin: auto;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: center;
+			font-size: 18px;
+			width: 40px;
+			height: 40px;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		input[type="text"] {
+			border: none;
+			width: 100%;
+			height: 100%;
+			font-size: 18px;
+			text-align: center;
+			background-color: transparent;
+			outline: none;
+		}
+
+		input[type="text"]:hover {
+			background-color: #e0e0e0;
+		}
+
+		input[type="text"]:focus {
+			background-color: #d4d4d4;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Sudoku Board</h1>
+
+
+	<form method="post" action="/add">
+		<table>
+			<tr th:each="row, rowIndex : ${gameBoard}">
+				<td th:each="cell, cellIndex : ${row}">
+					<input type="text" name="gameBoard[${rowIndex.index}][${cellIndex.index}]" th:value="${cell}" >
+				</td>
+			</tr>
+		</table>
+		<input type="submit" value="Check Valid">
+	</form>
+
+
+
+</body>
+
+</html>

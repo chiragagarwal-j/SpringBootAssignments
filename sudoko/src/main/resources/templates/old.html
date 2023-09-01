@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>9x9 Table with Input Cells</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            width: 33px;
+            height: 33px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tbody>
+            <!-- Create a 9x9 grid of input fields using Thymeleaf -->
+            <tr th:each="row : ${#numbers.sequence(0, 8)}">
+                <td th:each="col : ${#numbers.sequence(0, 8)}">
+                    <input type="text" th:id="'cell_' + ${row} + '_' + ${col}" th:name="'cell_' + ${row} + '_' + ${col}">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
