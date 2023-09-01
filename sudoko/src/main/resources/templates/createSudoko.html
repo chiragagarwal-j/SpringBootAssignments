@@ -49,17 +49,27 @@
 	<h1>Sudoku Board</h1>
 
 
-	<form method="post" action="/add">
+	<form method="post" action="/add" th:object="${gameBoard}">
 		<table>
-			<tr th:each="row, rowIndex : ${gameBoard}">
-				<td th:each="cell, cellIndex : ${row}">
-					<input type="text" name="gameBoard[${rowIndex.index}][${cellIndex.index}]" th:value="${cell}" >
+			<tr th:each="rowIndex : ${#numbers.sequence(0, 8)}">
+				<td th:each="cellIndex : ${#numbers.sequence(0, 8)}">
+					<input type="text" th:field="*{cells[__${rowIndex}__][__${cellIndex}__]}" >
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="Check Valid">
+		<input type="submit" value="Check Valid and Add">
 	</form>
-
+	
+	<form method="post" action="/load" th:object="${gameBoard}">
+		<table>
+			<tr th:each="rowIndex : ${#numbers.sequence(0, 8)}">
+				<td th:each="cellIndex : ${#numbers.sequence(0, 8)}">
+					<input type="text" th:field="*{cells[__${rowIndex}__][__${cellIndex}__]}" >
+				</td>
+			</tr>
+		</table>
+		<input type="submit" value="Load">
+	</form>
 
 
 </body>

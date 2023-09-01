@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class SudokuValidator {
 
-	public boolean isValidSudoku(String gameBoard) {
+	public static boolean isValidSudoku(String gameBoard) {
 		if (gameBoard == null || gameBoard.length() != 81) {
 			return false;
 		}
@@ -32,7 +32,7 @@ public class SudokuValidator {
 		return true;
 	}
 
-	private boolean isValidRow(char[][] board, int row) {
+	private static boolean isValidRow(char[][] board, int row) {
 		Set<Character> seen = new HashSet<>();
 		for (int col = 0; col < 9; col++) {
 			char cell = board[row][col];
@@ -43,7 +43,7 @@ public class SudokuValidator {
 		return true;
 	}
 
-	private boolean isValidColumn(char[][] board, int col) {
+	private static boolean isValidColumn(char[][] board, int col) {
 		Set<Character> seen = new HashSet<>();
 		for (int row = 0; row < 9; row++) {
 			char cell = board[row][col];
@@ -54,7 +54,7 @@ public class SudokuValidator {
 		return true;
 	}
 
-	private boolean isValidSubgrid(char[][] board, int subgrid) {
+	private static boolean isValidSubgrid(char[][] board, int subgrid) {
 		Set<Character> seen = new HashSet<>();
 		int rowOffset = (subgrid / 3) * 3;
 		int colOffset = (subgrid % 3) * 3;

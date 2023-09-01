@@ -13,5 +13,5 @@ public class Sudoku {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String boardData;
+	private String gameBoard;
 }
