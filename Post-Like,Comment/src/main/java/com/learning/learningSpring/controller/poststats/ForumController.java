@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.learning.learningSpring.controller.binding.AddCommentForm;
 import com.learning.learningSpring.controller.binding.AddPostForm;
 import com.learning.learningSpring.controller.exceptions.ResourceNotFoundException;
 import com.learning.learningSpring.entity.Comment;
@@ -99,7 +100,7 @@ public class ForumController {
 		model.addAttribute("userList", userList);
 		int numLikes = likeCountRepository.countByPostId(id);
 		model.addAttribute("likeCount", numLikes);
-		model.addAttribute("commentList", commentList);
+		model.addAttribute("commentForm", new AddCommentForm());
 		return "forum/postDetail";
 	}
 
@@ -115,15 +116,15 @@ public class ForumController {
 	}
 
 	@PostMapping("/post/{id}/comment")
-	public String addCommentToPost( @PathVariable int id,
-    @ModelAttribute("newComment") Comment newComment) {
-		Optional<User> user = userRepository.findById(id);
+	public String addCommentToPost(@ModelAttribute("commentForm") AddCommentForm commentForm, @PathVariable int id) {
+		Optional<User> user = userRepository.findById(commentForm.getUserId());
 		Optional<Post> post = postRepository.findById(id);
 		if (user.isPresent() && post.isPresent()) {
-			newComment.setContent(newComment.getContent());
-			newComment.setPost(post.get());
-			newComment.setUser(user.get());
-			commentRepository.save(newComment);
+			Comment comment = new Comment();
+			comment.setContent(commentForm.getContent());
+			comment.setPost(post.get());
+			comment.setUser(user.get());
+			commentRepository.save(comment);
 		}
 		return String.format("redirect:/forum/post/%d", id);
 	}

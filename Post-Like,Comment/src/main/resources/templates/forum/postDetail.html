@@ -31,9 +31,9 @@
       <input type="submit" value="Like!" />
     </form>
 
-    <form method="post" action="#" th:action="@{/forum/post/{id}/comment(id=${post.id})}">
+    <form method="post" action="#" th:action="@{/forum/post/{id}/comment(id=${post.id})}" th:Object="${commentForm}">
       <label for="userdropdown">Select your username</label>
-      <select id="userdropdown">
+      <select id="userdropdown" th:field="*{userId}">
           <option th:each="userOption : ${userList}"
                   th:value="${userOption.id}"
                   th:text="${userOption.name}">
