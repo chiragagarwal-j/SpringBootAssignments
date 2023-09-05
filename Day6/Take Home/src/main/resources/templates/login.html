@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Register</a></p>
+    <!-- <form method="post" th:action="@{/restock}">
+		<label for="branddropdown">Select brand name</label>
+		<select id="branddropdown" name="brandId">
+			<option th:each="cyc : ${cycleList}" th:value="${cyc.id}" th:text="${cyc.brand}"></option>
+		</select>
+		<label for="restock">Restock Quantity</label>
+		<input type="number" id="restock" name="restockQuantity" min="1" required />
+		<input type="submit" value="Restock" />
+	</form> -->
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cycle Stand Stats</title>
+  </head>
+
+  <body>
+    <h3>Rent Cycle</h3>
+
+    <table>
+      <tr>
+        <th>Cycle ID</th>
+        <th>Brand</th>
+        <th>In Stock</th>
+        <th>Borrow</th>
+      </tr>
+      <tr th:each="cyc : ${cycleList}" th:if="${cyc.availableCycles > 0}">
+        <td th:text="${cyc.id}">Cycle ID</td>
+        <td th:text="${cyc.brand}">Brand</td>
+        <td th:text="${cyc.availableCycles}">Quantity</td>
+        <td>
+          <form th:action="@{/borrow}" method="post">
+            <input type="hidden" name="id" th:value="${cyc.id}" />
+            <button class="checkin-button" type="submit">Borrow</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    <h3>Return Cycle</h3>
+
+    <table>
+      <tr>
+        <th>Cycle ID</th>
+        <th>Brand</th>
+        <th>Return</th>
+      </tr>
+      <tr th:each="cyc : ${cycleList}">
+        <td th:text="${cyc.id}">Cycle ID</td>
+        <td th:text="${cyc.brand}">Brand</td>
+        <td>
+          <form th:action="@{/return}" method="post">
+            <input type="hidden" name="id" th:value="${cyc.id}" />
+            <button class="checkout-button" type="submit">Return</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    <h4>Please Login/Register to Restock the Cycles</h4>
+    <div>
+      <a href="/register"><button>Register</button></a>
+      <a href="/login"><button>Login</button></a>
+    </div>
+  </body>
+</html>
