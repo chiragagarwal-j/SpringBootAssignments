@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.learning.learningSpring.business.LoggedInUser;
 import com.learning.learningSpring.business.NeedsAuth;
 import com.learning.learningSpring.controller.binding.AddCommentForm;
 import com.learning.learningSpring.controller.binding.AddPostForm;
@@ -52,6 +53,9 @@ public class ForumController {
 	@Autowired
 	private CommentRepository commentRepository;
 
+	@Autowired
+	private LoggedInUser loggedInUser;
+
 	private List<User> userList;
 
 	@PostConstruct
@@ -78,7 +82,7 @@ public class ForumController {
 			attr.addFlashAttribute("post", postForm);
 			return "redirect:/forum/post/form";
 		}
-		Optional<User> user = userRepository.findById(postForm.getUserId());
+		Optional<User> user = userRepository.findById(loggedInUser.getLoggedInUser().getId());
 		if (user.isEmpty()) {
 			throw new ServletException("Something went seriously wrong and we couldn't find the user in the DB");
 		}
@@ -110,7 +114,7 @@ public class ForumController {
 	@PostMapping("/post/{id}/like")
 	public String postLike(@PathVariable int id, Integer likerId, RedirectAttributes attr) {
 		LikeId likeId = new LikeId();
-		likeId.setUser(userRepository.findById(likerId).get());
+		likeId.setUser(userRepository.findById(loggedInUser.getLoggedInUser().getId()).get());
 		likeId.setPost(postRepository.findById(id).get());
 		LikeRecord like = new LikeRecord();
 		like.setLikeId(likeId);
@@ -120,7 +124,7 @@ public class ForumController {
 
 	@PostMapping("/post/{id}/comment")
 	public String addCommentToPost(@ModelAttribute("commentForm") AddCommentForm commentForm, @PathVariable int id) {
-		Optional<User> user = userRepository.findById(commentForm.getUserId());
+		Optional<User> user = userRepository.findById(loggedInUser.getLoggedInUser().getId());
 		Optional<Post> post = postRepository.findById(id);
 		if (user.isPresent() && post.isPresent()) {
 			Comment comment = new Comment();

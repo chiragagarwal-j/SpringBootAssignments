@@ -17,5 +17,5 @@ public class User {
 	private int id;
 	@Column
 	private String name;
-
+	private String password;
 }

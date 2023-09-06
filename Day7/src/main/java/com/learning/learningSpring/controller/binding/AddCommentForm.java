@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class AddCommentForm {
     private String content;
-    private int userId;
+    // private int userId;
 }

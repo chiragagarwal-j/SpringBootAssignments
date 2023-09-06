@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.learning.learningSpring.business.LoggedInUser;
-import com.learning.learningSpring.entity.Users;
+import com.learning.learningSpring.entity.User;
 import com.learning.learningSpring.service.UserService;
 
 @Controller
@@ -32,19 +32,19 @@ public class LoginController {
     @GetMapping
     public String getLoginForm(Model model) {
         if (!model.containsAttribute("user")) {
-            model.addAttribute("user", new Users());
+            model.addAttribute("user", new User());
         }
         return "forum/login";
     }
 
     @PostMapping
-    public String login(@ModelAttribute("user") Users users, BindingResult bindingResult, RedirectAttributes attr) {
+    public String login(@ModelAttribute("user") User users, BindingResult bindingResult, RedirectAttributes attr) {
         if (bindingResult.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
             attr.addFlashAttribute("user", users);
             return "redirect:/loginpage";
         }
-        Optional<Users> authResult = userService.authenticate(users.getName(), users.getPassword());
+        Optional<User> authResult = userService.authenticate(users.getName(), users.getPassword());
         if (authResult.isEmpty()) {
             attr.addFlashAttribute("result", "Username-password combination not found in database");
             attr.addFlashAttribute("user", users);

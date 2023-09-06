@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.learning.learningSpring.business.UserForm;
-import com.learning.learningSpring.entity.Users;
+import com.learning.learningSpring.entity.User;
 import com.learning.learningSpring.service.UserService;
 
 
@@ -45,7 +45,7 @@ public class RegistrationController {
             attr.addFlashAttribute("userForm", userForm);
             return "redirect:/register";
         }
-        Users userToCreate = new Users();
+        User userToCreate = new User();
         userToCreate.setName(userForm.getName());
         userToCreate.setPassword(userForm.getPassword());
         userService.create(userToCreate);

@@ -20,25 +20,25 @@
       action="#"
       th:action="@{/forum/post/{id}/like(id = ${post.id})}"
     >
-      <label for="userdropdown">Select your username</label>
+      <!-- <label for="userdropdown">Select your username</label>
       <select id="userdropdown" th:name="likerId">
         <option
           th:each="userOption : ${userList}"
           th:value="${userOption.id}"
           th:text="${userOption.name}"
         ></option>
-      </select>
+      </select> -->
       <input type="submit" value="Like!" />
     </form>
 
     <form method="post" action="#" th:action="@{/forum/post/{id}/comment(id=${post.id})}" th:Object="${commentForm}">
-      <label for="userdropdown">Select your username</label>
+      <!-- <label for="userdropdown">Select your username</label>
       <select id="userdropdown" th:field="*{userId}">
           <option th:each="userOption : ${userList}"
                   th:value="${userOption.id}"
                   th:text="${userOption.name}">
           </option>
-      </select>
+      </select> -->
       <label for="commentContent">Comment</label>
       <textarea id="commentContent" th:field="*{content}"></textarea>
       <input type="submit" value="Add Comment" />

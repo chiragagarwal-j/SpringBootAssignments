@@ -11,7 +11,7 @@ import lombok.Data;
 public class LikeRecord {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	@EmbeddedId
 	private LikeId likeId;
