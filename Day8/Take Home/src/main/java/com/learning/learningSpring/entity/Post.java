@@ -1,6 +1,12 @@
 package com.learning.learningSpring.entity;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,4 +27,10 @@ public class Post {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "author_id", referencedColumnName = "id")
 	private User author;
+	@CreationTimestamp
+    @Column(name = "timestamp")
+    private Date timestamp;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }

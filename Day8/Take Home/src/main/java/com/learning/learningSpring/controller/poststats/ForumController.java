@@ -1,10 +1,11 @@
 package com.learning.learningSpring.controller.poststats;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.learning.learningSpring.business.LoggedInUser;
-import com.learning.learningSpring.business.NeedsAuth;
 import com.learning.learningSpring.controller.binding.AddCommentForm;
 import com.learning.learningSpring.controller.binding.AddPostForm;
 import com.learning.learningSpring.controller.exceptions.ResourceNotFoundException;
@@ -28,7 +27,6 @@ import com.learning.learningSpring.entity.User;
 import com.learning.learningSpring.model.student.RegistrationForm;
 import com.learning.learningSpring.repository.CommentRepository;
 import com.learning.learningSpring.repository.LikeCRUDRepository;
-import com.learning.learningSpring.repository.LikeCountRepository;
 import com.learning.learningSpring.repository.PostRepository;
 import com.learning.learningSpring.repository.UserRepository;
 import com.learning.learningSpring.service.DomainUserService;
@@ -50,31 +48,21 @@ public class ForumController {
 	private DomainUserService domainUserService;
 
 	@Autowired
-	private LikeCountRepository likeCountRepository;
-
-	@Autowired
 	private LikeCRUDRepository likeCRUDRepository;
 
 	@Autowired
 	private CommentRepository commentRepository;
 
-	@Autowired
-	private LoggedInUser loggedInUser;
-
-	private List<User> userList;
-
 	@PostConstruct
 	public void init() {
-		userList = new ArrayList<>();
 	}
 
-	@NeedsAuth(loginPage = "/loginpage")
 	@GetMapping("/post/form")
-	public String getPostForm(Model model) {
-		model.addAttribute("postForm", new AddPostForm());
-		userRepository.findAll().forEach(user -> userList.add(user));
-		model.addAttribute("userList", userList);
-		model.addAttribute("authorid", 1);
+	public String getPostForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+		AddPostForm postForm = new AddPostForm();
+		User author = domainUserService.getByName(userDetails.getUsername()).get();
+		postForm.setUserId(author.getId());
+		model.addAttribute("postForm", postForm);
 		return "forum/postForm";
 	}
 
@@ -87,7 +75,7 @@ public class ForumController {
 			attr.addFlashAttribute("post", postForm);
 			return "redirect:/forum/post/form";
 		}
-		Optional<User> user = userRepository.findById(loggedInUser.getLoggedInUser().getId());
+		Optional<User> user = userRepository.findById(postForm.getUserId());
 		if (user.isEmpty()) {
 			throw new ServletException("Something went seriously wrong and we couldn't find the user in the DB");
 		}
@@ -99,27 +87,30 @@ public class ForumController {
 		return String.format("redirect:/forum/post/%d", post.getId());
 	}
 
-	@NeedsAuth(loginPage = "/loginpage")
 	@GetMapping("/post/{id}")
-	public String postDetail(@PathVariable int id, Model model) throws ResourceNotFoundException {
+	public String postDetail(@PathVariable int id, Model model, @AuthenticationPrincipal UserDetails userDetails)
+			throws ResourceNotFoundException {
 		Optional<Post> post = postRepository.findById(id);
 		if (post.isEmpty()) {
 			throw new ResourceNotFoundException("No post with the requested ID");
 		}
+		model.addAttribute("post", post.get());
+
 		List<Comment> commentList = commentRepository.findAllByPostId(id);
 		model.addAttribute("commentList", commentList);
-		model.addAttribute("post", post.get());
-		model.addAttribute("userList", userList);
-		int numLikes = likeCountRepository.countByPostId(id);
+
+		model.addAttribute("likerName", userDetails.getUsername());
+		int numLikes = likeCRUDRepository.countByLikeIdPost(post.get());
 		model.addAttribute("likeCount", numLikes);
+
 		model.addAttribute("commentForm", new AddCommentForm());
 		return "forum/postDetail";
 	}
 
 	@PostMapping("/post/{id}/like")
-	public String postLike(@PathVariable int id, Integer likerId, RedirectAttributes attr) {
+	public String postLike(@PathVariable int id, String likerName, RedirectAttributes attr) {
 		LikeId likeId = new LikeId();
-		likeId.setUser(userRepository.findById(loggedInUser.getLoggedInUser().getId()).get());
+		likeId.setUser(userRepository.findByName(likerName).get());
 		likeId.setPost(postRepository.findById(id).get());
 		LikeRecord like = new LikeRecord();
 		like.setLikeId(likeId);
@@ -128,17 +119,24 @@ public class ForumController {
 	}
 
 	@PostMapping("/post/{id}/comment")
-	public String addCommentToPost(@ModelAttribute("commentForm") AddCommentForm commentForm, @PathVariable int id) {
-		Optional<User> user = userRepository.findById(loggedInUser.getLoggedInUser().getId());
+	public String addCommentToPost(@ModelAttribute("commentForm") AddCommentForm commentForm, @PathVariable int id, @AuthenticationPrincipal UserDetails userDetails) {
 		Optional<Post> post = postRepository.findById(id);
-		if (user.isPresent() && post.isPresent()) {
+		if (post.isPresent()) {
 			Comment comment = new Comment();
 			comment.setContent(commentForm.getContent());
 			comment.setPost(post.get());
-			comment.setUser(user.get());
+			comment.setUser(domainUserService.getByName(userDetails.getUsername()).get());
 			commentRepository.save(comment);
 		}
 		return String.format("redirect:/forum/post/%d", id);
+	}
+
+	@GetMapping("/register")
+	public String getRegistrationForm(Model model) {
+		if (!model.containsAttribute("registrationForm")) {
+			model.addAttribute("registrationForm", new RegistrationForm());
+		}
+		return "forum/register";
 	}
 
 	@PostMapping("/register")
@@ -155,7 +153,7 @@ public class ForumController {
 			attr.addFlashAttribute("registrationForm", registrationForm);
 			return "redirect:/register";
 		}
-		System.out.println(domainUserService.save(registrationForm.getUsername(), registrationForm.getPassword()));
+		domainUserService.save(registrationForm.getUsername(), registrationForm.getPassword());
 		attr.addFlashAttribute("result", "Registration success!");
 		return "redirect:/login";
 	}

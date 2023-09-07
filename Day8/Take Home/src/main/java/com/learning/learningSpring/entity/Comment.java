@@ -1,5 +1,10 @@
 package com.learning.learningSpring.entity;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,5 +26,12 @@ public class Comment {
     private Post post;
 
 	private String content;
+
+    @CreationTimestamp
+    @Column(name = "timestamp")
+    private Date timestamp;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 
 }
