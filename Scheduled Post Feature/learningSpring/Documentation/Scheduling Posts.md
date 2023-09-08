@@ -47,7 +47,7 @@ The scheduler constantly monitors the system clock or uses a timer mechanism to 
 **The Cron Expression**
 Cron Expression Format : * * * * * *
 
-Example:
+Example: <br />
 **Normal Date Time Expression: 2023-09-07 19:54:00** <br />
 **Cron Expression : 59 0 19 7 9 ?**
 
