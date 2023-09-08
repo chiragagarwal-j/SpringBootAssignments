@@ -1,7 +1,10 @@
 # A Spring project on Scheduling of addition and deletion posts
 
- 
+- [Introduction](#introduction)
+- [The Backend Implementation](#the-backend-implementation)
+- [Conclusion](#conclusion)
 
+## Introduction
 Introducing our project that focuses on **scheduling posts**, a feature-rich solution designed to empower users with the ability to plan. Our project streamlines the process of creating, timing, and publishing posts.
 
 ![Feature Work Flow](https://github.com/chiragagarwal-j/SpringBootAssignments/blob/main/Scheduled%20Post%20Feature/learningSpring/Documentation/Feature%20Work%20Flow.png)
@@ -30,7 +33,7 @@ If you don't wish to schedule for deleting the post, you can simply disregard th
 
  
 
-# How does it work in backend?
+# The Backend Implementation
 
  
 
