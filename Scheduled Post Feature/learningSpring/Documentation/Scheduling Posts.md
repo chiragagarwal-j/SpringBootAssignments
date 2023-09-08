@@ -4,7 +4,7 @@
 
 Introducing our project that focuses on **scheduling posts**, a feature-rich solution designed to empower users with the ability to plan. Our project streamlines the process of creating, timing, and publishing posts.
 
- 
+![Feature Work Flow](Scheduled Post Feature/learningSpring/Documentation/Feature Work Flow.png)
 
 # How to make a scheduled post?
 
