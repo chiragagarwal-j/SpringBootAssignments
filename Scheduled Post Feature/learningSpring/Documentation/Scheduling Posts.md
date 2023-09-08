@@ -48,7 +48,5 @@ The scheduler constantly monitors the system clock or uses a timer mechanism to 
 
 ## Done by
 
-This documentation was created by:
-
 - Chirag Agarwal
 - Modali Harshitha
