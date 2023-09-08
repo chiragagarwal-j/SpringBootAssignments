@@ -45,8 +45,9 @@ The scheduler constantly monitors the system clock or uses a timer mechanism to 
 
 **Task Activation:** When the current time matches a scheduled publication time, the scheduler activates the task associated with that post. This task typically involves posting content to a designated platform, such as a social media platform, blog, or website.
 
+## Conclusion
+Dynamic task scheduling, whether implemented in Java Spring or any other context, plays a crucial role in optimizing resource utilization and efficiency. It allows for the flexible assignment of tasks or jobs based on real-time conditions and priorities, making it essential in various domains, including operating systems, cloud computing, and application development. Dynamic scheduling ensures that tasks are executed when needed, adapts to changing workloads, and can be adjusted at runtime to meet evolving requirements, ultimately improving system performance and responsiveness.
 
-## Done by
-
-- Chirag Agarwal
-- Modali Harshitha
+# Team Members: 
+-  **Chirag Agarwal**
+-  **Modali Harshita**
