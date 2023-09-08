@@ -66,4 +66,4 @@ Dynamic task scheduling, whether implemented in Java Spring or any other context
 
 # Team Members: 
 -  **Chirag Agarwal**
--  **Modali Harshita**
+-  **Modali Harshitha**
