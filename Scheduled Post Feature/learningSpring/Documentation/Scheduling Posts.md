@@ -6,7 +6,7 @@ Introducing our project that focuses on **scheduling posts**, a feature-rich sol
 
 ![Feature Work Flow](https://github.com/chiragagarwal-j/SpringBootAssignments/blob/main/Scheduled%20Post%20Feature/learningSpring/Documentation/Feature%20Work%20Flow.png)
 
-# How to make a scheduled post?
+# How to add a scheduled post?
 
  
 
@@ -14,7 +14,19 @@ After logging into your forum and enter the content, then click on **date and ti
 
  
 
-If you don't want to schedule a post, you can simply disregard the date and time option and proceed with publishing your post.
+If you don't wish to schedule a post, you can simply disregard the date and time option and proceed with publishing the post.
+
+
+# How to delete scheduled post?
+
+ 
+
+After logging into your forum and entering the post details page, then click on **date and time** prompt and set the date and time you wish to delete your post.
+
+ 
+
+If you don't wish to schedule for deleting the post, you can simply disregard the date and time option and proceed with deleting the post.
+
 
  
 
