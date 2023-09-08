@@ -1,7 +1,7 @@
 # A Spring project on Scheduling of addition and deletion posts
 
 - [Introduction](#introduction)
-- [The Backend Work Flow](#the-backend-work-flow)
+- [The Work Flow](#the-work-flow)
 - [Conclusion](#conclusion)
 
 ## Introduction
@@ -33,7 +33,7 @@ If you don't wish to schedule for deleting the post, you can simply disregard th
 
  
 
-# The Backend Work Flow
+# The Work Flow
 
  
 
