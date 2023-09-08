@@ -49,7 +49,7 @@ Cron Expression Format : * * * * * *
 
 Example: <br />
 **Normal Date Time Expression: 2023-09-07 19:54:00** <br />
-**Cron Expression : 59 0 19 7 9 ?**
+**Cron Expression : 0 54 19 7 9 ?**
 
 * 0 2 * * *: This cron expression runs a task every day at 2:00 AM.
 
