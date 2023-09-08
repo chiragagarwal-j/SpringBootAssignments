@@ -44,3 +44,11 @@ The scheduler constantly monitors the system clock or uses a timer mechanism to 
  
 
 **Task Activation:** When the current time matches a scheduled publication time, the scheduler activates the task associated with that post. This task typically involves posting content to a designated platform, such as a social media platform, blog, or website.
+
+
+## Done by
+
+This documentation was created by:
+
+- Chirag Agarwal
+- Modali Harshitha
