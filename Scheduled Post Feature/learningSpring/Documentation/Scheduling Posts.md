@@ -18,7 +18,7 @@ After logging into your forum and enter the content, then click on **date and ti
  
 
 If you don't wish to schedule a post, you can simply disregard the date and time option and proceed with publishing the post.
-
+![create scheduled post](https://github.com/chiragagarwal-j/SpringBootAssignments/blob/main/Scheduled%20Post%20Feature/learningSpring/Documentation/create%20scheduled%20post.png)
 
 # How to delete scheduled post?
 
